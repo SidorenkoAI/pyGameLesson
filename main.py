@@ -1,33 +1,45 @@
 import pygame
 
+def getBacground(screen, w: int, h: int, color1, color2):
+    bg = pygame.Surface(screen.get_size())
+    colors = (color1, color2)
+    i = 0
+    y = 0
+    while y < bg.get_height():
+        x = 0
+        while x < bg.get_width():
+            pygame.draw.rect(surface=bg, color=colors[i % 2], rect=pygame.Rect(x, y, w, h))
+            x += w
+            i += 1
+        y += h
+        i += 1
+    return bg
+
+
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((2000, 1200))
 pygame.display.set_caption('Game')
 clock = pygame.time.Clock()
 running = True
-screen.fill("white")
+
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 color = RED
+bg = getBacground(screen, 100, 100, (0,0,0), (100,100,100))
+radius = 0
 while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
+    #screen.fill("white")
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-            color = BLUE
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-            color = GREEN
 
-    # fill the screen with a color to wipe away anything from last frame
-    pygame.draw.rect(surface=screen, color=color, rect=pygame.Rect(400, 300, 400, 300), width=5)
-    pygame.draw.line(surface=screen, color=color, start_pos=(400, 300), end_pos=(600, 200), width=5)
-    pygame.draw.line(surface=screen, color=color, start_pos=(600, 200), end_pos=(800, 300), width=5)
-    # RENDER YOUR GAME HERE
-    # flip() the display to put your work on screen
+    screen.blit(bg, dest=(0, 0))
+    pygame.draw.circle(screen,color=(124,50,100), center=screen.get_rect().center, radius=radius, width=5)
+    radius += 1
+    if radius > screen.get_width() // 2:
+        radius = 0
     pygame.display.flip()
     clock.tick(60)  # limits FPS to 60
 
