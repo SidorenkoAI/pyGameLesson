@@ -46,5 +46,55 @@ def foxRun():
         pygame.display.flip()
 
 
-foxRun()
+def getFrames(w: int, h: int, filename: str):
+    image = pygame.image.load(filename).convert_alpha()
+    width, height = image.get_size()
+    w = width / w
+    h = height / h
+    row = 0
+    frames = []
+    for j in range(int(height / h)):
+        for i in range(int(width / w)):
+            frames.append(image.subsurface(pygame.Rect(i * w, row, w, h)))
+        row += int(h)
+    return frames
+
+
+
+def chel():
+    pygame.init()
+    screen = pygame.display.set_mode((2000, 1200))
+    pygame.display.set_caption('Chel')
+    frames = getFrames(12, 4, 'img/chel.png')
+    down_frames = frames[:12]
+    left_frames = frames[12:24]
+    right_frames = frames[24:36]
+    up_frames = frames[36:]
+    frames = down_frames
+    index = 0
+    clock = pygame.time.Clock()
+    while True:
+        screen.fill((24,113,147))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            frames = up_frames
+            index = (index + 1) % len(frames)
+        elif keys[pygame.K_DOWN]:
+            frames = down_frames
+            index = (index + 1) % len(frames)
+        elif keys[pygame.K_LEFT]:
+            frames = left_frames
+            index = (index + 1) % len(frames)
+        elif keys[pygame.K_RIGHT]:
+            frames = right_frames
+            index = (index + 1) % len(frames)
+
+        screen.blit(frames[index], (100, 100))
+        pygame.display.flip()
+    clock.tick(60)
+
+chel()
 pygame.quit()
