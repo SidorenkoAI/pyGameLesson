@@ -1,5 +1,7 @@
 import pygame
 import random
+from Fox import Fox
+from Kolobok import Kolobok
 def getBacground(screen, w: int, h: int, color1, color2):
     bg = pygame.Surface(screen.get_size())
     colors = (color1, color2)
@@ -16,34 +18,33 @@ def getBacground(screen, w: int, h: int, color1, color2):
     return bg
 
 
-# pygame setup
-pygame.init()
-screen = pygame.display.set_mode((2000, 1200))
-pygame.display.set_caption('Game')
-clock = pygame.time.Clock()
-running = True
+def foxRun():
+    pygame.init()
+    screen = pygame.display.set_mode((2000, 1200))
+    pygame.display.set_caption('Fox')
+    clock = pygame.time.Clock()
+    fox = Fox()
+    kolobok = Kolobok()
+    fox_frame_counter = 0
+    while True:
+        screen.fill((24,113,147))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
 
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-color = RED
-bg = getBacground(screen, 100, 100, (0,0,0), (100,100,100))
-radius = 0
-while running:
-    #screen.fill("white")
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        kolobok.step_right()
+        kolobok.update(screen)
 
-    screen.blit(bg, dest=(0, 0))
-    pygame.draw.circle(screen, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
-                       (random.randint(0, 1000), random.randint(0, 1000)), radius,
-                       width=random.randint(0, 20))
+        fox_frame_counter += clock.tick(60)
+        if fox_frame_counter > 100:
+            fox_frame_counter = 0
+            fox.step_right(speed=5)
+        fox.update(screen)
 
-    radius += 1
-    if radius > screen.get_width() // 2:
-        radius = 0
-    pygame.display.flip()
-    clock.tick(60)  # limits FPS to 60
 
+
+        pygame.display.flip()
+
+
+foxRun()
 pygame.quit()
