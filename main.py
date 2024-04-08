@@ -1,5 +1,5 @@
 import pygame
-
+import random
 def getBacground(screen, w: int, h: int, color1, color2):
     bg = pygame.Surface(screen.get_size())
     colors = (color1, color2)
@@ -36,7 +36,10 @@ while running:
             running = False
 
     screen.blit(bg, dest=(0, 0))
-    pygame.draw.circle(screen,color=(124,50,100), center=screen.get_rect().center, radius=radius, width=5)
+    pygame.draw.circle(screen, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
+                       (random.randint(0, 1000), random.randint(0, 1000)), radius,
+                       width=random.randint(0, 20))
+
     radius += 1
     if radius > screen.get_width() // 2:
         radius = 0
