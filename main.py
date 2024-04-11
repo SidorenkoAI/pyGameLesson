@@ -81,7 +81,7 @@ def chel():
     rectChel.x = 0
     rectChel.y = 0
     angle = 0
-    aster = Asteroid(path='img/asteroid.png', screen=screen)
+    asteroids = Asteroid(path='img/asteroid.png', screen=screen)
     last_update = pygame.time.get_ticks()
     while True:
         screen.fill((24,113,147))
@@ -125,13 +125,13 @@ def chel():
             if rectKol.x > screen.get_width():
                 rectKol.x = 0
                 rectKol.y += 100
-        aster.rotate()
-        aster.update()
+
+        asteroids.update()
         screen.blit(rot, rectKol)
         screen.blit(frames[index], rectChel)
 
         pygame.display.flip()
-    clock.tick(60)
+    clock.tick(30)
 
 chel()
 pygame.quit()
