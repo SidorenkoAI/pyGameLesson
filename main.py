@@ -60,10 +60,11 @@ def getFrames(w: int, h: int, filename: str):
     return frames
 
 
-
+from Asteroid import Asteroid
 def chel():
     pygame.init()
     screen = pygame.display.set_mode((2000, 1200))
+
     pygame.display.set_caption('Chel')
     frames = getFrames(12, 4, 'img/chel.png')
     down_frames = frames[:12]
@@ -80,6 +81,7 @@ def chel():
     rectChel.x = 0
     rectChel.y = 0
     angle = 0
+    aster = Asteroid(path='img/asteroid.png', screen=screen)
     last_update = pygame.time.get_ticks()
     while True:
         screen.fill((24,113,147))
@@ -123,8 +125,8 @@ def chel():
             if rectKol.x > screen.get_width():
                 rectKol.x = 0
                 rectKol.y += 100
-
-
+        aster.rotate()
+        aster.update()
         screen.blit(rot, rectKol)
         screen.blit(frames[index], rectChel)
 
