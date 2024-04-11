@@ -73,6 +73,13 @@ def chel():
     frames = down_frames
     index = 0
     clock = pygame.time.Clock()
+    kol = pygame.image.load('img/kolobok.png')
+    rot = kol
+    rectKol = kol.get_rect()
+    x = 0
+    y = 0
+    angle = 0
+    last_update = pygame.time.get_ticks()
     while True:
         screen.fill((24,113,147))
         for event in pygame.event.get():
@@ -81,18 +88,45 @@ def chel():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP]:
             frames = up_frames
+            y -= 1
             index = (index + 1) % len(frames)
         elif keys[pygame.K_DOWN]:
             frames = down_frames
+            y += 1
             index = (index + 1) % len(frames)
         elif keys[pygame.K_LEFT]:
             frames = left_frames
+            x -= 1
             index = (index + 1) % len(frames)
         elif keys[pygame.K_RIGHT]:
             frames = right_frames
+            x += 1
             index = (index + 1) % len(frames)
 
-        screen.blit(frames[index], (100, 100))
+        now = pygame.time.get_ticks()
+        '''
+        сохранить старый центр
+        получить повернутый объект
+        получить от него rect
+        полученному rect присвоить старый центр
+        '''
+        if now - last_update > 1:
+            last_update = now
+
+            angle = (angle - 1) % 360
+            old_center = rectKol.center
+            rot = pygame.transform.rotate(kol, angle=angle)
+            rectKol = rot.get_rect()
+            rectKol.center = old_center
+            rectKol.x += 1
+            if rectKol.x > screen.get_width():
+                rectKol.x = 0
+                rectKol.y += 100
+
+
+        screen.blit(rot, rectKol)
+        screen.blit(frames[index], (x, y))
+
         pygame.display.flip()
     clock.tick(60)
 
