@@ -12,6 +12,9 @@ class Asteroid:
         self.rot: Surface
         self.asterList = []
         self.last_update = pg.time.get_ticks()
+        self.font = pg.font.SysFont('arial', 70)
+        self.statText = self.font.render('Упало камней:',True, 'red')
+        self.astCounter = 0
     def rotate(self, ast):
         #ast = [orig_img, rect, angle, img]
         ast[2] = (ast[2] + ast[5]) % 360
@@ -38,7 +41,7 @@ class Asteroid:
         self.asterList.append([orig_img, rect, angle, img, speedDown, speedRotation, angleDown])
     def update(self):
         now = pg.time.get_ticks()
-        if now - self.last_update > 500:
+        if now - self.last_update > 200:
             self.last_update = now
             self.add()
         for ast in self.asterList:
@@ -47,5 +50,11 @@ class Asteroid:
             ast[1].x += ast[6]
             self.scr.blit(ast[3], ast[1])
             if ast[1].y > self.scr.get_height() or ast[1].x > self.scr.get_width():
+                self.astCounter += 1
                 self.asterList.remove(ast)
-        print(len(self.asterList))
+        self.printStat()
+    def printStat(self):
+        self.scr.blit(self.statText, (100, 900))
+        counterText = self.font.render(f'{self.astCounter}',True, 'green')
+        self.scr.blit(counterText, (100, 1000))
+

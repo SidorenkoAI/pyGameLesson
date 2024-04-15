@@ -131,7 +131,7 @@ def chel():
         screen.blit(frames[index], rectChel)
 
         pygame.display.flip()
-    clock.tick(30)
+    clock.tick(10)
 
 chel()
 pygame.quit()
