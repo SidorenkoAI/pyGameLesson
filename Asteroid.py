@@ -57,4 +57,5 @@ class Asteroid:
         self.scr.blit(self.statText, (100, 900))
         counterText = self.font.render(f'{self.astCounter}',True, 'green')
         self.scr.blit(counterText, (100, 1000))
-
+        astText = self.font.render(f'{len(self.asterList)}',True, 'green')
+        self.scr.blit(astText, (200, 1000))

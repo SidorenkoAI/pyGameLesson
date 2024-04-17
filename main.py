@@ -125,7 +125,8 @@ def chel():
             if rectKol.x > screen.get_width():
                 rectKol.x = 0
                 rectKol.y += 100
-
+        if rectChel.colliderect(rectKol):
+            rectKol.center = random.randint(0,screen.get_width()), random.randint(0, screen.get_height())
         asteroids.update()
         screen.blit(rot, rectKol)
         screen.blit(frames[index], rectChel)
