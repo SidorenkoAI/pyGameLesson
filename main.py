@@ -35,6 +35,13 @@ def chel():
         s = pygame.sprite.spritecollideany(chel, game.grAst)
         if s:
             game.grAst.remove(s)
+            chel.hp -= 10
+            game.bang(chel.rect)
+            if chel.hp < 1:
+                game.gameOver()
+                pygame.display.flip()
+                pygame.time.wait(2000)
+                return
         chel.draw()
         game.addAst()
         game.grAst.update()
