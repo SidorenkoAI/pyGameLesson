@@ -42,10 +42,16 @@ def chel():
                 pygame.display.flip()
                 pygame.time.wait(2000)
                 return
+        k = pygame.sprite.spritecollideany(chel, game.grKol)
+        if k:
+            game.grKol.remove(k)
+            chel.hp += 10
         chel.draw()
         game.addAst()
         game.grAst.update()
         game.grAst.draw(screen)
+        game.grKol.update()
+        game.grKol.draw(screen)
         pygame.display.flip()
         clock.tick(60)
 
