@@ -1,24 +1,40 @@
+import random
+
 import pygame
 from pygame import Surface
-class Chel:
+class Chel(pygame.sprite.Sprite):
     def __init__(self, path: str, screen: Surface):
+        super().__init__()
+        self.screen = screen
         self.frames = self.getFrames(12, 4, path)
         self.down_frames = self.frames[:12]
         self.left_frames = self.frames[12:24]
         self.right_frames = self.frames[24:36]
         self.up_frames = self.frames[36:]
         self.frames = self.down_frames
-        self.rectChel = self.frames[0].get_rect()
-        self.rectChel.x = 0
-        self.rectChel.y = 0
+        self.image = self.frames[0]
+        self.rect = self.frames[0].get_rect()
+        self.rect.x = random.randint(0, self.screen.get_width())
+        self.rect.y = random.randint(0, self.screen.get_height())
         self.index = 0
 
     def update(self, direction: str):
         if direction == 'up':
-
+            self.frames = self.up_frames
+            self.rect.y -= 1
+        elif direction == 'down':
+            self.frames = self.down_frames
+            self.rect.y += 1
+        elif direction == 'left':
+            self.frames = self.left_frames
+            self.rect.x -= 1
+        elif direction == 'right':
+            self.frames = self.right_frames
+            self.rect.x += 1
+        self.index = (self.index + 1) % len(self.frames)
 
     def draw(self):
-        pass
+        self.screen.blit(self.frames[self.index], self.rect)
 
     def getFrames(self, w: int, h: int, filename: str):
         image = pygame.image.load(filename).convert_alpha()
