@@ -3,34 +3,20 @@ import random
 from Fox import Fox
 from Kolobok import Kolobok
 from Chel import Chel
-
 from Asteroid import Game
-
-class Mob(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.image = pygame.image.load('img/kolobok.png')
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randint(0, 300)
-        self.rect.y = random.randint(0, 300)
-    def update(self):
-        self.rect.x += 1
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
-
 
 def chel():
     pygame.init()
-    screen = pygame.display.set_mode((2000, 1200))
+    bg = pygame.image.load('img/back.jpg')
+    screen = pygame.display.set_mode(bg.get_size())
 
     pygame.display.set_caption('Chel')
     chel = Chel(path='img/chel.png', screen=screen)
     clock = pygame.time.Clock()
-
-
     game = Game(path='img/asteroid.png', screen=screen)
+
     while True:
-        screen.fill((24,113,147))
+        screen.blit(bg, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -46,13 +32,15 @@ def chel():
 
         elif keys[pygame.K_RIGHT]:
             chel.update('right')
-
+        s = pygame.sprite.spritecollideany(chel, game.grAst)
+        if s:
+            game.grAst.remove(s)
         chel.draw()
         game.addAst()
         game.grAst.update()
         game.grAst.draw(screen)
         pygame.display.flip()
-    clock.tick(60)
+        clock.tick(60)
 
 chel()
 pygame.quit()

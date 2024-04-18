@@ -3,7 +3,7 @@ import random
 import pygame
 from pygame import Surface
 class Chel(pygame.sprite.Sprite):
-    def __init__(self, path: str, screen: Surface):
+    def __init__(self, path: str, screen: Surface, speed = 5):
         super().__init__()
         self.screen = screen
         self.frames = self.getFrames(12, 4, path)
@@ -17,20 +17,22 @@ class Chel(pygame.sprite.Sprite):
         self.rect.x = random.randint(0, self.screen.get_width())
         self.rect.y = random.randint(0, self.screen.get_height())
         self.index = 0
+        self.speed = speed
+        self.hp = 100
 
     def update(self, direction: str):
         if direction == 'up':
             self.frames = self.up_frames
-            self.rect.y -= 1
+            self.rect.y -= self.speed
         elif direction == 'down':
             self.frames = self.down_frames
-            self.rect.y += 1
+            self.rect.y += self.speed
         elif direction == 'left':
             self.frames = self.left_frames
-            self.rect.x -= 1
+            self.rect.x -= self.speed
         elif direction == 'right':
             self.frames = self.right_frames
-            self.rect.x += 1
+            self.rect.x += self.speed
         self.index = (self.index + 1) % len(self.frames)
 
     def draw(self):
