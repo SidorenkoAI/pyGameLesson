@@ -1,61 +1,74 @@
 import pygame as pg
+import pygame.sprite
 from pygame import Surface
 import random
-class Asteroid:
+class Asteroid(pygame.sprite.Sprite):
     def __init__(self, path: str, screen: Surface):
+        super().__init__()
         self.orig_img = pg.image.load(path)
-        self.rect = self.orig_img.get_rect()
-        self.rect.x = 600
+        self.screen = screen
+        scale = (random.randint(30, 200), random.randint(30, 200))
+        self.orig_img = pg.transform.scale(surface=self.orig_img, size=scale)
+        self.image = self.orig_img.copy()
+        self.rect = self.image.get_rect()
+        self.angle = random.randint(0, 360)
+        self.rect.x = random.randint(0, self.screen.get_width())
         self.rect.y = 0
-        self.scr = screen
-        self.angle = 0
-        self.rot: Surface
-        self.asterList = []
-        self.last_update = pg.time.get_ticks()
-        self.font = pg.font.SysFont('arial', 70)
-        self.statText = self.font.render('Упало камней:',True, 'red')
-        self.astCounter = 0
-    def rotate(self, ast):
+        self.speedDown = random.randint(1, 3)
+        self.speedRotation = random.randint(1, 5)
+        self.angleDown = random.randint(-5, 5)
+
+    def rotate(self):
         #ast = [orig_img, rect, angle, img]
-        ast[2] = (ast[2] + ast[5]) % 360
-        ast[3] = pg.transform.rotate(ast[0], angle=ast[2])
-        old_center = ast[1].center
-        ast[1] = ast[3].get_rect()
-        ast[1].center = old_center
+        self.angle = (self.angle + self.speedRotation) % 360
+        self.image = pg.transform.rotate(self.orig_img, angle=self.angle)
+        old_center = self.rect.center
+        self.rect = self.image.get_rect()
+        self.rect.center = old_center
         # self.angle = (self.angle - 1) % 360
         # old_center = self.rect.center
         # self.rot = pg.transform.rotate(self.orig_img, angle=self.angle)
         # self.rect = self.rot.get_rect()
         # self.rect.center = old_center
-    def add(self):
-        scale = (random.randint(30, 200), random.randint(30, 200))
-        orig_img = pg.transform.scale(surface=self.orig_img, size=scale)
-        img = orig_img.copy()
-        angle = random.randint(0,360)
-        rect = orig_img.get_rect()
-        rect.x = random.randint(0, self.scr.get_width())
-        rect.y = 0
-        speedDown = random.randint(1, 3)
-        speedRotation = random.randint(1, 5)
-        angleDown = random.randint(-5,5)
-        self.asterList.append([orig_img, rect, angle, img, speedDown, speedRotation, angleDown])
+    # def add(self):
+    #     scale = (random.randint(30, 200), random.randint(30, 200))
+    #     orig_img = pg.transform.scale(surface=self.orig_img, size=scale)
+    #     img = orig_img.copy()
+    #     angle = random.randint(0,360)
+    #     rect = orig_img.get_rect()
+    #     rect.x = random.randint(0, self.scr.get_width())
+    #     rect.y = 0
+    #     speedDown = random.randint(1, 3)
+    #     speedRotation = random.randint(1, 5)
+    #     angleDown = random.randint(-5,5)
+    #     self.asterList.append([orig_img, rect, angle, img, speedDown, speedRotation, angleDown])
     def update(self):
+        self.rotate()
+        self.rect.y += self.speedDown
+        self.rect.x += self.angleDown
+        # now = pg.time.get_ticks()
+        # if now - self.last_update > 200:
+        #     self.last_update = now
+        #     self.add()
+        # for ast in self.asterList:
+        #     self.rotate(ast)
+        #     ast[1].y += ast[4]
+        #     ast[1].x += ast[6]
+        #     self.scr.blit(ast[3], ast[1])
+        #     if ast[1].y > self.scr.get_height() or ast[1].x > self.scr.get_width():
+        #         self.astCounter += 1
+        #         self.asterList.remove(ast)
+        # self.printStat()
+
+
+class Game:
+    def __init__(self, path:str, screen: Surface):
+        self.path = path
+        self.screen = screen
+        self.grAst = pygame.sprite.Group()
+        self.last_update = pg.time.get_ticks()
+    def addAst(self):
         now = pg.time.get_ticks()
         if now - self.last_update > 200:
             self.last_update = now
-            self.add()
-        for ast in self.asterList:
-            self.rotate(ast)
-            ast[1].y += ast[4]
-            ast[1].x += ast[6]
-            self.scr.blit(ast[3], ast[1])
-            if ast[1].y > self.scr.get_height() or ast[1].x > self.scr.get_width():
-                self.astCounter += 1
-                self.asterList.remove(ast)
-        self.printStat()
-    def printStat(self):
-        self.scr.blit(self.statText, (100, 900))
-        counterText = self.font.render(f'{self.astCounter}',True, 'green')
-        self.scr.blit(counterText, (100, 1000))
-        astText = self.font.render(f'{len(self.asterList)}',True, 'green')
-        self.scr.blit(astText, (200, 1000))
+            self.grAst.add(Asteroid(path=self.path, screen=self.screen))

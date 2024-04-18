@@ -4,7 +4,7 @@ from Fox import Fox
 from Kolobok import Kolobok
 from Chel import Chel
 
-from Asteroid import Asteroid
+from Asteroid import Game
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
@@ -26,10 +26,9 @@ def chel():
     pygame.display.set_caption('Chel')
     chel = Chel(path='img/chel.png', screen=screen)
     clock = pygame.time.Clock()
-    kolGroup = pygame.sprite.Group()
-    for i in range(10):
-        kolGroup.add(Mob())
-    asteroids = Asteroid(path='img/asteroid.png', screen=screen)
+
+
+    game = Game(path='img/asteroid.png', screen=screen)
     while True:
         screen.fill((24,113,147))
         for event in pygame.event.get():
@@ -47,14 +46,11 @@ def chel():
 
         elif keys[pygame.K_RIGHT]:
             chel.update('right')
-        kolGroup.update()
-        kolGroup.draw(screen)
-        chel.draw()
-        s = pygame.sprite.spritecollideany(chel, kolGroup)
-        if s:
-            kolGroup.remove(s)
 
-        asteroids.update()
+        chel.draw()
+        game.addAst()
+        game.grAst.update()
+        game.grAst.draw(screen)
         pygame.display.flip()
     clock.tick(60)
 
