@@ -6,7 +6,7 @@ import random
 
 
 class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, path: str, screen: Surface):
+    def __init__(self, path: str, screen: Surface, speedDown):
         super().__init__()
         self.orig_img = pg.image.load(path)
         self.screen = screen
@@ -17,7 +17,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.angle = random.randint(0, 360)
         self.rect.x = random.randint(0, self.screen.get_width())
         self.rect.y = 0
-        self.speedDown = random.randint(1, 3)
+        self.speedDown = random.randint(speedDown, speedDown + 2)
         self.speedRotation = random.randint(1, 5)
         self.angleDown = random.randint(-5, 5)
 
