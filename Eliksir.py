@@ -1,17 +1,11 @@
-import pygame as pg
-import pygame.sprite
+import pygame
 from pygame import Surface
 import random
-
-
-
-class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, path: str, screen: Surface):
+class Eliksir(pygame.sprite.Sprite):
+    def __init__(self, screen: Surface):
         super().__init__()
-        self.orig_img = pg.image.load(path)
         self.screen = screen
-        scale = (random.randint(30, 200), random.randint(30, 200))
-        self.orig_img = pg.transform.scale(surface=self.orig_img, size=scale)
+        self.orig_img = pygame.image.load('img/kolobok.png')
         self.image = self.orig_img.copy()
         self.rect = self.image.get_rect()
         self.angle = random.randint(0, 360)
@@ -23,7 +17,7 @@ class Asteroid(pygame.sprite.Sprite):
 
     def rotate(self):
         self.angle = (self.angle + self.speedRotation) % 360
-        self.image = pg.transform.rotate(self.orig_img, angle=self.angle)
+        self.image = pygame.transform.rotate(self.orig_img, angle=self.angle)
         old_center = self.rect.center
         self.rect = self.image.get_rect()
         self.rect.center = old_center
@@ -32,6 +26,3 @@ class Asteroid(pygame.sprite.Sprite):
         self.rotate()
         self.rect.y += self.speedDown
         self.rect.x += self.angleDown
-
-
-

@@ -3,7 +3,7 @@ import random
 from Fox import Fox
 from Kolobok import Kolobok
 from Chel import Chel
-from Asteroid import Game
+from Game import Game
 
 def chel():
     pygame.init()
@@ -47,11 +47,7 @@ def chel():
             game.grKol.remove(k)
             chel.hp += 10
         chel.draw()
-        game.addAst()
-        game.grAst.update()
-        game.grAst.draw(screen)
-        game.grKol.update()
-        game.grKol.draw(screen)
+        game.update()
         pygame.display.flip()
         clock.tick(60)
 
