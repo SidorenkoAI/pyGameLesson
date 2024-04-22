@@ -45,18 +45,15 @@ def chel():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP]:
             chel.update('up')
-
         elif keys[pygame.K_DOWN]:
             chel.update('down')
-
         elif keys[pygame.K_LEFT]:
             chel.update('left')
-
         elif keys[pygame.K_RIGHT]:
             chel.update('right')
         elif keys[pygame.K_SPACE]:
             game.addBullet()
-
+        pygame.sprite.groupcollide(game.grAst, game.grBullet, True, True)
         s = pygame.sprite.spritecollideany(chel, game.grAst)
         if s:
             game.grAst.remove(s)
@@ -81,6 +78,6 @@ def chel():
         pygame.display.flip()
         clock.tick(60)
 
-menu()
+#menu()
 chel()
 pygame.quit()

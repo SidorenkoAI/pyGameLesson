@@ -68,3 +68,7 @@ class Game:
         self.grBullet.draw(self.screen)
         self.grApp.draw(self.screen)
         self.printStat()
+        for bullet in self.grBullet:
+            if bullet.rect.bottom <= 0 or bullet.rect.top >= self.screen.get_height() \
+                    or bullet.rect.right >= self.screen.get_width() or bullet.rect.left <= 0:
+                self.grBullet.remove(bullet)

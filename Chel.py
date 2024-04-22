@@ -19,21 +19,26 @@ class Chel(pygame.sprite.Sprite):
         self.index = 0
         self.speed = speed
         self.hp = 100
+        self.direction = 'down'
 
     def update(self, direction: str):
         if direction == 'up':
             self.frames = self.up_frames
             if self.rect.y > self.screen.get_height() - 500:
                 self.rect.y -= self.speed
+            self.direction = 'up'
         elif direction == 'down':
             self.frames = self.down_frames
             self.rect.y += self.speed
+            self.direction = 'down'
         elif direction == 'left':
             self.frames = self.left_frames
             self.rect.x -= self.speed
+            self.direction = 'left'
         elif direction == 'right':
             self.frames = self.right_frames
             self.rect.x += self.speed
+            self.direction = 'right'
         self.index = (self.index + 1) % len(self.frames)
 
     def draw(self):
