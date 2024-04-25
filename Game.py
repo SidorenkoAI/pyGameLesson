@@ -23,7 +23,7 @@ class Game:
         self.pers = pers
         self.level = 1
         pygame.mixer.music.load('sound/C418_-_Haggstrom_30921643.mp3')
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
     def addAst(self):
         now = pg.time.get_ticks()
         if now - self.last_update > 600:
@@ -36,6 +36,7 @@ class Game:
 
     def gameOver(self):
         self.screen.blit(self.gameOverText, self.screen.get_rect().center)
+        self.pers.soundDIE.play()
     def checkGround(self):
         for ast in self.grAst:
             if ast.rect.y > self.screen.get_height() - 300:

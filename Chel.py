@@ -18,8 +18,11 @@ class Chel(pygame.sprite.Sprite):
         self.rect.y = random.randint(0, self.screen.get_height())
         self.index = 0
         self.speed = speed
-        self.hp = 100
+        self.hp = 60
         self.direction = 'down'
+        self.soundLowHP = pygame.mixer.Sound('sound/chin-chan-chon-chi-chicha-chochi.wav')
+        self.soundDIE = pygame.mixer.Sound('sound/player-dying-sound-effect.mp3')
+        self.flagSoundLowHP = True
 
     def update(self, direction: str):
         if direction == 'up':
@@ -40,6 +43,11 @@ class Chel(pygame.sprite.Sprite):
             self.rect.x += self.speed
             self.direction = 'right'
         self.index = (self.index + 1) % len(self.frames)
+        if self.hp < 50 and self.flagSoundLowHP:
+            self.soundLowHP.play(-1)
+            self.flagSoundLowHP = False
+        elif self.hp > 50:
+             self.soundLowHP.stop()
 
     def draw(self):
         self.screen.blit(self.frames[self.index], self.rect)
