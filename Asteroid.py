@@ -20,6 +20,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.speedDown = random.randint(speedDown, speedDown + 2)
         self.speedRotation = random.randint(1, 5)
         self.angleDown = random.randint(-5, 5)
+        self.sound = pygame.mixer.Sound('sound/est-probitie.wav')
 
     def rotate(self):
         self.angle = (self.angle + self.speedRotation) % 360

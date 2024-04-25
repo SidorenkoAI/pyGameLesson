@@ -37,6 +37,7 @@ def chel():
     clock = pygame.time.Clock()
     game = Game(path='img/asteroid.png', screen=screen, pers=chel)
     game.addApp(20)
+
     while True:
         screen.blit(bg, (0,0))
         for event in pygame.event.get():
@@ -56,6 +57,7 @@ def chel():
         pygame.sprite.groupcollide(game.grAst, game.grBullet, True, True)
         s = pygame.sprite.spritecollideany(chel, game.grAst)
         if s:
+            s.sound.play()
             game.grAst.remove(s)
             chel.hp -= 10
             game.bang(chel.rect)
@@ -66,6 +68,7 @@ def chel():
                 return
         w = pygame.sprite.spritecollideany(chel, game.grApp)
         if w:
+            w.sound.play()
             game.grApp.remove(w)
             chel.hp += 10
 
