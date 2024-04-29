@@ -82,21 +82,34 @@ def chel():
         clock.tick(60)
 
 from Ball import Ball
+from Pushka import Pushka
 def pushka():
     pygame.init()
     bg = pygame.image.load('img/back.jpg')
     screen = pygame.display.set_mode(resolution)
     clock = pygame.time.Clock()
-    ball = Ball(path='img/apple.png', screen=screen)
+    gun = Pushka(path='img/pushka.jpg', screen=screen)
 
+    ballGroup = pygame.sprite.Group()
+    pygame.mixer.music.load('sound/C418_-_Haggstrom_30921643.mp3')
+    pygame.mixer.music.play(-1)
 
     while True:
         screen.blit(bg, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        ball.update()
-        ball.draw()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    ballGroup.add(Ball(path='img/apple.png', screen=screen, gun=gun))
+                    gun.sound.play()
+        for ball in ballGroup:
+            if ball.rect.x > screen.get_width() or ball.rect.y > screen.get_height():
+                ballGroup.remove(ball)
+        ballGroup.update()
+        ballGroup.draw(surface=screen)
+        print(len(ballGroup))
+        gun.draw()
         pygame.display.flip()
         clock.tick(60)
 #menu()

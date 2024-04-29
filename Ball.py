@@ -3,7 +3,7 @@ from pygame import Surface
 import random
 import math
 class Ball(pygame.sprite.Sprite):
-    def __init__(self, path: str, screen: Surface):
+    def __init__(self, path: str, screen: Surface, gun):
         super().__init__()
         self.screen = screen
         self.orig_img = pygame.image.load(path)
@@ -12,8 +12,8 @@ class Ball(pygame.sprite.Sprite):
         self.image = self.orig_img.copy()
 
         self.rect = self.image.get_rect()
-        self.rect.x = 100
-        self.rect.y = 700
+        self.x0 = gun.rect.right
+        self.y0 = gun.rect.y
         self.t = 0
 
     def update(self):
@@ -22,11 +22,11 @@ class Ball(pygame.sprite.Sprite):
         g = 9.8
         x = v0 * math.cos(alpha) * self.t
         y = v0 * math.sin(alpha) * self.t - g * (self.t ** 2)/2
-        self.rect.x = x + 100
-        self.rect.y = 500 - y
+        self.rect.x = x + self.x0
+        self.rect.y = self.y0 - y
         self.t += 0.1
-        if self.t > (2 * v0 * math.sin(alpha))/g:
-            self.t = 0
+
+
 
 
     def draw(self):
