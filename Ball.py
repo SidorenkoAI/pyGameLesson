@@ -15,10 +15,10 @@ class Ball(pygame.sprite.Sprite):
         self.x0 = gun.rect.right
         self.y0 = gun.rect.y
         self.t = 0
-
+        self.angle = gun.angle
     def update(self):
         v0 = 100
-        alpha = 45 * (math.pi/180)
+        alpha = self.angle * (math.pi/180)
         g = 9.8
         x = v0 * math.cos(alpha) * self.t
         y = v0 * math.sin(alpha) * self.t - g * (self.t ** 2)/2

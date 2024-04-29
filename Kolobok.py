@@ -1,17 +1,18 @@
 import pygame
 
-class Kolobok:
-    def __init__(self):
+class Kolobok(pygame.sprite.Sprite):
+    def __init__(self, screen):
+        super().__init__()
         self.image = pygame.image.load(f"img/kolobok.png")
-        self.x = 0
-        self.y = 200
-        self.angle = 0
-        self.rotation = self.image
+        self.rect = self.image.get_rect()
+        self.rect.x = 1300
+        self.rect.y = 700
+        self.screen = screen
+        self.sound = pygame.mixer.Sound('sound/vzryiv-vzorvavshegosya-snaryada.ogg')
 
-    def update(self, screen):
-        screen.blit(self.rotation, (self.x, self.y))
+    def play(self):
+        self.sound.play()
+    def draw(self):
+        self.screen.blit(self.image, self.rect)
 
-    def step_right(self, speed=1):
-        self.angle = (self.angle - 1) % 360
-        self.rotation = pygame.transform.rotate(self.image, angle=self.angle)
-        self.x += speed
+

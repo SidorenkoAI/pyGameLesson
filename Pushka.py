@@ -14,8 +14,22 @@ class Pushka(pygame.sprite.Sprite):
         self.rect.y = 500
         self.t = 0
         self.sound = pygame.mixer.Sound('sound/gromkiy-moschnyiy-vyistrel-pushki.ogg')
+        self.angle = 45
 
 
-
+    def upper(self):
+        if self.angle <= 80:
+            self.angle += 10
+        self.image = pygame.transform.rotate(self.orig_img, angle=self.angle)
+        old_center = self.rect.center
+        self.rect = self.image.get_rect()
+        self.rect.center = old_center
+    def lower(self):
+        if self.angle >= 10:
+            self.angle -= 10
+        self.image = pygame.transform.rotate(self.orig_img, angle=self.angle)
+        old_center = self.rect.center
+        self.rect = self.image.get_rect()
+        self.rect.center = old_center
     def draw(self):
         self.screen.blit(self.image, self.rect)

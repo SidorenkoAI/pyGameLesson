@@ -26,3 +26,5 @@ class Eliksir(pygame.sprite.Sprite):
         self.rotate()
         self.rect.y += self.speedDown
         self.rect.x += self.angleDown
+    def draw(self):
+        self.screen.blit(self.screen, self.rect)

@@ -83,13 +83,14 @@ def chel():
 
 from Ball import Ball
 from Pushka import Pushka
+from Kolobok import Kolobok
 def pushka():
     pygame.init()
     bg = pygame.image.load('img/back.jpg')
     screen = pygame.display.set_mode(resolution)
     clock = pygame.time.Clock()
     gun = Pushka(path='img/pushka.jpg', screen=screen)
-
+    kolobok = Kolobok(screen=screen)
     ballGroup = pygame.sprite.Group()
     pygame.mixer.music.load('sound/C418_-_Haggstrom_30921643.mp3')
     pygame.mixer.music.play(-1)
@@ -103,12 +104,20 @@ def pushka():
                 if event.key == pygame.K_SPACE:
                     ballGroup.add(Ball(path='img/apple.png', screen=screen, gun=gun))
                     gun.sound.play()
+                elif event.key == pygame.K_UP:
+                    gun.upper()
+                elif event.key == pygame.K_DOWN:
+                    gun.lower()
         for ball in ballGroup:
             if ball.rect.x > screen.get_width() or ball.rect.y > screen.get_height():
                 ballGroup.remove(ball)
+
+        if pygame.sprite.spritecollideany(kolobok, ballGroup):
+            kolobok.play()
+        kolobok.draw()
         ballGroup.update()
         ballGroup.draw(surface=screen)
-        print(len(ballGroup))
+
         gun.draw()
         pygame.display.flip()
         clock.tick(60)
