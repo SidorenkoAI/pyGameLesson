@@ -81,6 +81,25 @@ def chel():
         pygame.display.flip()
         clock.tick(60)
 
+from Ball import Ball
+def pushka():
+    pygame.init()
+    bg = pygame.image.load('img/back.jpg')
+    screen = pygame.display.set_mode(resolution)
+    clock = pygame.time.Clock()
+    ball = Ball(path='img/apple.png', screen=screen)
+
+
+    while True:
+        screen.blit(bg, (0, 0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+        ball.update()
+        ball.draw()
+        pygame.display.flip()
+        clock.tick(60)
 #menu()
-chel()
+#chel()
+pushka()
 pygame.quit()

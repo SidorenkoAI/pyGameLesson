@@ -23,7 +23,7 @@ class Game:
         self.pers = pers
         self.level = 1
         pygame.mixer.music.load('sound/C418_-_Haggstrom_30921643.mp3')
-        #pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
     def addAst(self):
         now = pg.time.get_ticks()
         if now - self.last_update > 600:
