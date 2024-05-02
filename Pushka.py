@@ -10,13 +10,17 @@ class Pushka(pygame.sprite.Sprite):
         self.orig_img = pygame.transform.scale_by(surface=self.orig_img, factor=0.5)
         self.image = self.orig_img.copy()
         self.rect = self.image.get_rect()
-        self.rect.x = 300
-        self.rect.y = 500
+        self.rect.x = 100
+        self.rect.y = 600
         self.t = 0
         self.sound = pygame.mixer.Sound('sound/gromkiy-moschnyiy-vyistrel-pushki.ogg')
         self.angle = 45
+        self.speed = 10
 
-
+    def changeSpeed(self):
+        self.speed += 1
+        if self.speed > 150:
+            self.speed = 10
     def upper(self):
         if self.angle <= 80:
             self.angle += 10

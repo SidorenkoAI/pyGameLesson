@@ -108,6 +108,11 @@ def pushka():
                     gun.upper()
                 elif event.key == pygame.K_DOWN:
                     gun.lower()
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
+            gun.changeSpeed()
+
         for ball in ballGroup:
             if ball.rect.x > screen.get_width() or ball.rect.y > screen.get_height():
                 ballGroup.remove(ball)
