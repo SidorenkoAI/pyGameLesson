@@ -84,6 +84,7 @@ def chel():
 from Ball import Ball
 from Pushka import Pushka
 from Kolobok import Kolobok
+from wall import Wall
 def pushka():
     pygame.init()
     bg = pygame.image.load('img/back.jpg')
@@ -91,6 +92,7 @@ def pushka():
     clock = pygame.time.Clock()
     gun = Pushka(path='img/pushka.jpg', screen=screen)
     kolobok = Kolobok(screen=screen)
+    w = Wall(screen)
     ballGroup = pygame.sprite.Group()
     pygame.mixer.music.load('sound/C418_-_Haggstrom_30921643.mp3')
     pygame.mixer.music.play(-1)
@@ -122,7 +124,7 @@ def pushka():
         kolobok.draw()
         ballGroup.update()
         ballGroup.draw(surface=screen)
-
+        w.draw()
         gun.draw()
         pygame.display.flip()
         clock.tick(60)
