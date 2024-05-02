@@ -37,3 +37,10 @@ class Pushka(pygame.sprite.Sprite):
         self.rect.center = old_center
     def draw(self):
         self.screen.blit(self.image, self.rect)
+        r = self.speed * 1.7
+        g = 255 - self.speed
+        b = 0
+        color = (r,g,b)
+        pygame.draw.rect(surface=self.screen,
+                         rect=pygame.Rect(self.rect.x, self.rect.y - 50, self.speed, 20),
+                         color=color)
