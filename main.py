@@ -121,10 +121,16 @@ def pushka():
 
         if pygame.sprite.spritecollideany(kolobok, ballGroup):
             kolobok.play()
+        b = pygame.sprite.spritecollideany(w, ballGroup)
+        if b:
+            w.collide(b)
+            ballGroup.remove(b)
+
         kolobok.draw()
         ballGroup.update()
         ballGroup.draw(surface=screen)
         w.draw()
+        gun.update()
         gun.draw()
         pygame.display.flip()
         clock.tick(60)

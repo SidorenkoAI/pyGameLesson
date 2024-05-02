@@ -16,6 +16,13 @@ class Pushka(pygame.sprite.Sprite):
         self.sound = pygame.mixer.Sound('sound/gromkiy-moschnyiy-vyistrel-pushki.ogg')
         self.angle = 45
         self.speed = 10
+        self.x = 0
+
+    def update(self):
+        alpha = self.angle * (math.pi / 180)
+        g = 9.8
+        x = self.speed ** 2 * math.sin(2 * alpha) / g
+        self.x = x + self.rect.right
 
     def changeSpeed(self):
         self.speed += 1
@@ -44,3 +51,7 @@ class Pushka(pygame.sprite.Sprite):
         pygame.draw.rect(surface=self.screen,
                          rect=pygame.Rect(self.rect.x, self.rect.y - 50, self.speed, 20),
                          color=color)
+        pygame.draw.circle(self.screen, color='red', center=(self.x, self.rect.y),
+                           radius=20)
+        # pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(25 + self.rect.x + self.x, self.rect.y - 2.5, 5, 10))
+        # pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(25 + self.rect.x + self.x - 2.5, self.rect.y, 10, 5))

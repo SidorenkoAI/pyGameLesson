@@ -17,6 +17,7 @@ class Ball(pygame.sprite.Sprite):
         self.t = 0
         self.angle = gun.angle
         self.v0 = gun.speed
+
     def update(self):
         alpha = self.angle * (math.pi/180)
         g = 9.8
@@ -27,7 +28,6 @@ class Ball(pygame.sprite.Sprite):
         self.t += 0.1
 
 
-
-
     def draw(self):
         self.screen.blit(self.image, self.rect)
+

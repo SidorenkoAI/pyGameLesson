@@ -8,7 +8,7 @@ class Kolobok(pygame.sprite.Sprite):
         self.rect.x = 1300
         self.rect.y = 700
         self.screen = screen
-        self.sound = pygame.mixer.Sound('sound/vzryiv-vzorvavshegosya-snaryada.ogg')
+        self.sound = pygame.mixer.Sound('sound/est-probitie.wav')
 
     def play(self):
         self.sound.play()
